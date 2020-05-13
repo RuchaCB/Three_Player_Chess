@@ -866,57 +866,40 @@ def capture(desti):
         if value == desti:
             key.hideturtle()
             return True
-
-con = 1
 ex = 'n'
-while ex != 'y':
-    update()
-    if con%3 == 1 or con == 1:
-        print("BLUE plays")
-        piece = input("select piece ")#R1.....R2
-        if validate_piece(piece):
-            desti = input('destination ')#H4
-            if validate_desti(desti):
-                p = 'b'
-                FINAL_PIECE = p+piece
-                if move(FINAL_PIECE, desti) is False:
-                    con -= 1
-            else:
-                print("Please enter a valid destination")
+
+def ask(p, con):
+    piece = input("select piece ")
+    if validate_piece(piece):
+        desti = input('destination ')
+        if validate_desti(desti):
+            final_piece = p+piece
+            if move(final_piece, desti) is False:
                 con -= 1
-        else:
-            con -= 1
-    elif con%3 == 2 or con == 2:
-        print("RED plays")
-        piece = input("select piece ")
-        if validate_piece(piece):
-            desti = input('destination ')
-            if validate_desti(desti):
-                p = 'r'
-                FINAL_PIECE = p+piece
-                if move(FINAL_PIECE, desti) is False:
-                    con -= 1
-            else:
-                print("Please enter a valid destination")
-                con -= 1
-        else:
-            con -= 1
-        
-    elif con%3 == 0:
-        print("GREEN plays")
-        piece = input("select piece ")
-        if validate_piece(piece):
-            desti = input('destination ')
-            if validate_desti(desti):
-                p = 'g'
-                FINAL_PIECE = p+piece
-                if move(FINAL_PIECE, desti) is False:
-                    con -= 1
+            if p == 'g':
                 ex = input('exit? ---> y/n')
-            else:
-                print("Please enter a valid destination")
-                con -= 1
         else:
+            print("Please enter a valid destination")
             con -= 1
-    con += 1
+    else:
+        con -= 1
+    return con
+
+def take_inputs():
+    con = 1
+    while ex != 'y':
+        update()
+        if con%3 == 1 or con == 1:
+            print("BLUE plays")
+            con = ask('b', con)
+        elif con%3 == 2 or con == 2:
+            print("RED plays")
+            con = ask('r', con)
+        elif con%3 == 0:
+            print("GREEN plays")
+            con = ask('g', con)
+        con += 1
+
+take_inputs()
 turtle.done()
+
